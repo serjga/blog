@@ -1,3 +1,5 @@
+
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <!-- SITE TITTLE -->
@@ -7,20 +9,20 @@
         <title>Calssimax</title>
 
         <!-- PLUGINS CSS STYLE -->
-        <link href="{$smarty.const.ASSETS_URL}/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet">
+        <link href="{url->getUrl path="/plugins/jquery-ui/jquery-ui.min.css"}" rel="stylesheet">
         <!-- Bootstrap -->
-        <link href="{$smarty.const.ASSETS_URL}/plugins/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="{url->getUrl path="/plugins/bootstrap/dist/css/bootstrap.min.css"}" rel="stylesheet">
         <!-- Font Awesome -->
-        <link href="{$smarty.const.ASSETS_URL}/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+        <link href="{url->getUrl path="/plugins/font-awesome/css/font-awesome.min.css"}" rel="stylesheet">
         <!-- Owl Carousel -->
-        <link href="{$smarty.const.ASSETS_URL}/plugins/slick-carousel/slick/slick.css" rel="stylesheet">
-        <link href="{$smarty.const.ASSETS_URL}/plugins/slick-carousel/slick/slick-theme.css" rel="stylesheet">
+        <link href="{url->getUrl path="/plugins/slick-carousel/slick/slick.css"}" rel="stylesheet">
+        <link href="{url->getUrl path="/plugins/slick-carousel/slick/slick-theme.css"} rel="stylesheet">
         <!-- Fancy Box -->
-        <link href="{$smarty.const.ASSETS_URL}/plugins/fancybox/jquery.fancybox.pack.css" rel="stylesheet">
-        <link href="{$smarty.const.ASSETS_URL}/plugins/jquery-nice-select/css/nice-select.css" rel="stylesheet">
-        <link href="{$smarty.const.ASSETS_URL}/plugins/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css" rel="stylesheet">
+        <link href="{url->getUrl path="/plugins/fancybox/jquery.fancybox.pack.css"}" rel="stylesheet">
+        <link href="{url->getUrl path="/plugins/jquery-nice-select/css/nice-select.css"}" rel="stylesheet">
+        <link href="{url->getUrl path="/plugins/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css"}" rel="stylesheet">
         <!-- CUSTOM CSS -->
-        <link href="{$smarty.const.ASSETS_URL}/css/style.css" rel="stylesheet">
+        <link href="{url->getUrl path="/css/style.css"}" rel="stylesheet">
 
         <!-- FAVICON -->
         <link href="img/favicon.png" rel="shortcut icon">
@@ -32,23 +34,23 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
     </head>
-    <body>
+    <body class="body-wrapper">
         {include file='header.tpl'}
         {block name=body}{/block}
         {include file='footer.tpl'}
         <!-- JAVASCRIPTS -->
-        <script src="{$smarty.const.ASSETS_URL}/plugins/jquery/jquery.min.js"></script>
-        <script src="{$smarty.const.ASSETS_URL}/plugins/jquery-ui/jquery-ui.min.js"></script>
-        <script src="{$smarty.const.ASSETS_URL}/plugins/tether/js/tether.min.js"></script>
-        <script src="{$smarty.const.ASSETS_URL}/plugins/raty/jquery.raty-fa.js"></script>
-        <script src="{$smarty.const.ASSETS_URL}/plugins/bootstrap/dist/js/popper.min.js"></script>
-        <script src="{$smarty.const.ASSETS_URL}/plugins/bootstrap/dist/js/bootstrap.min.js"></script>
-        <script src="{$smarty.const.ASSETS_URL}/plugins/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js"></script>
-        <script src="{$smarty.const.ASSETS_URL}/plugins/slick-carousel/slick/slick.min.js"></script>
-        <script src="{$smarty.const.ASSETS_URL}/plugins/jquery-nice-select/js/jquery.nice-select.min.js"></script>
-        <script src="{$smarty.const.ASSETS_URL}/plugins/fancybox/jquery.fancybox.pack.js"></script>
-        <script src="{$smarty.const.ASSETS_URL}/plugins/smoothscroll/SmoothScroll.min.js"></script>
+        <script src="{url->getUrl path="/plugins/jquery/jquery.min.js"}"></script>
+        <script src="{url->getUrl path="/plugins/jquery-ui/jquery-ui.min.js"}"></script>
+        <script src="{url->getUrl path="/plugins/tether/js/tether.min.js"}"></script>
+        <script src="{url->getUrl path="/plugins/raty/jquery.raty-fa.js"}"></script>
+        <script src="{url->getUrl path="/plugins/bootstrap/dist/js/popper.min.js"}"></script>
+        <script src="{url->getUrl path="/plugins/bootstrap/dist/js/bootstrap.min.js"}"></script>
+        <script src="{url->getUrl path="/plugins/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js"}"></script>
+        <script src="{url->getUrl path="/plugins/slick-carousel/slick/slick.min.js"}"></script>
+        <script src="{url->getUrl path="/plugins/jquery-nice-select/js/jquery.nice-select.min.js"}"></script>
+        <script src="{url->getUrl path="/plugins/fancybox/jquery.fancybox.pack.js"}"></script>
+        <script src="{url->getUrl path="/plugins/smoothscroll/SmoothScroll.min.js"}"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script>
-        <script src="{$smarty.const.ASSETS_URL}/js/scripts.js"></script>
+        <script src="{url->getUrl path="/js/scripts.js"}"></script>
     </body>
 </html>

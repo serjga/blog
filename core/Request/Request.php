@@ -9,6 +9,9 @@ class Request
     protected string $_method;
     protected string $_path;
     protected array $_parseUrl;
+    protected ?string $_previousUrl;
+
+    private static ?Request $_instance = null;
 
     function __construct() {
         $this->_parseUrlPath();
@@ -22,6 +25,18 @@ class Request
         $this->_path = $this->_parseUrl['path'] ?? '';
 
         $this->_method = $_SERVER['REQUEST_METHOD'];
+
+        if ($this->_method === 'GET') {
+            $this->_previousUrl = $_SERVER['HTTP_REFERER'] ?? null;
+        }
+    }
+
+    public static function getInstance(): self
+    {
+        if (self::$_instance === null) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
     }
 
     protected function _parseUrlPath(): void
@@ -42,13 +57,10 @@ class Request
         if (!empty($query)) {
             $queryParts = explode("&", $query);
 
-            $queryParams = array_map(function($p) {
-                $paramData = explode('=', $p);
-                return [ htmlspecialchars($paramData[0]) => htmlspecialchars($paramData[1]) ];
-            }, $queryParts);
-
-            print_r($queryParams);
-            $this->_getParams = $queryParams;
+            foreach ($queryParts as $param) {
+                $item = explode('=', $param);
+                $this->_getParams[htmlspecialchars($item[0])] = htmlspecialchars($item[1]);
+            }
         }
     }
 
@@ -77,8 +89,27 @@ class Request
         return $this->_path;
     }
 
-    public function createUrl($url): string
+    public function redirect(string $url): void
     {
-        return (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$url";
+        echo '<meta http-equiv="refresh" content="0;url=' . $url . '">';
+        exit;
+    }
+
+    public function back(): void
+    {
+        if ($this->_previousUrl) {
+            $this->redirect($this->_previousUrl);
+        }
+    }
+
+    public function reload(): void
+    {
+        $this->redirect($_SERVER['REQUEST_URI']);
+    }
+
+    private function __clone() {}
+
+    public function __wakeup() {
+        throw new \Exception("Cannot unserialize singleton");
     }
 }

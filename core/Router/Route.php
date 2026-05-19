@@ -1,14 +1,14 @@
 <?php
 namespace App\Router;
 
+use App\Controller\ControllerFactory;
 use App\Request\Request;
 
 class Route
 {
     protected Request $_request;
 
-    public function __construct()
-    {
+    public function __construct() {
         $this->_request = new Request();
     }
 
@@ -49,8 +49,8 @@ class Route
             $argumentValues[] = $requestParameters[$argumentName] ?? '';
         }
 
-        $newClass = new $className();
-        call_user_func_array([$newClass, $method], $argumentValues);
+        $controller = ControllerFactory::create($className);
+        call_user_func_array([$controller, $method], $argumentValues);
 
         die;
     }

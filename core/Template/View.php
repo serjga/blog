@@ -1,7 +1,7 @@
 <?php
 namespace App\Template;
 
-use App\Request\Request;
+use App\Request\Url;
 use Smarty\Smarty;
 
 class View
@@ -12,20 +12,23 @@ class View
     protected string $_cacheDir;
     protected string $_configDir;
 
-    function __construct() {
+    public function create(): self
+    {
         $this->_smarty = new Smarty();
         $this->_templateDir = __DIR__ . '/../../static/templates';
         $this->_compileDir = __DIR__ . '/../../static/templates_c';
         $this->_cacheDir = __DIR__ . '/../../static/cache';
         $this->_configDir = __DIR__ . '/../../static/configs';
 
-        $request = new Request();
-        $assetsUrl = $request->createUrl('/assets');
-        define('ASSETS_URL', $assetsUrl);
+        $config['date'] = '%I:%M %p';
+        $this->_smarty->assign('config', $config);
+        return $this;
     }
 
     public function render(string $templatePath): void
     {
+        $url = new Url();
+        $this->_smarty->registerObject('url', $url);
         $this->_smarty->setTemplateDir($this->_templateDir);
         $this->_smarty->setCompileDir($this->_compileDir);
         $this->_smarty->setCacheDir($this->_cacheDir);
@@ -33,23 +36,33 @@ class View
         $this->_smarty->display($templatePath);
     }
 
-    public function setTemplateDir (string $path): void
+    public function setTemplateDir (string $path): self
     {
         $this->_templateDir = $path;
+        return $this;
     }
 
-    public function setCompileDir (string $path): void
+    public function setCompileDir (string $path): self
     {
         $this->_compileDir = $path;
+        return $this;
     }
 
-    public function setCacheDir (string $path): void
+    public function setCacheDir (string $path): self
     {
         $this->_cacheDir = $path;
+        return $this;
     }
 
-    public function setConfigsDir (string $path): void
+    public function setConfigsDir (string $path): self
     {
         $this->_configDir = $path;
+        return $this;
+    }
+
+    public function addTemplateVariable (string $variableName, $value): self
+    {
+        $this->_smarty->assign($variableName, $value);
+        return $this;
     }
 }
