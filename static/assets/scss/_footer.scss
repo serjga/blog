@@ -1,0 +1,100 @@
+@import "./_color_scheme.scss";
+
+$btn-top-to-bg: map-get($theme-colors, "primary");
+$btn-top-to-color: map-get($theme-colors, "light");
+$footer-h4-color: map-get($theme-colors, "light");
+$footer-bottom-color: map-get($theme-colors, "light-dark");
+$footer-link-color: map-get($theme-colors, "secondary");
+$footer-link-color--hover: map-get($theme-colors, "light-dark");
+
+.footer {
+  background: #232425;
+  .block {
+    h4 {
+      color: $footer-h4-color;
+      font-size: 16px;
+      margin-bottom: 25px;
+    }
+
+    ul {
+      li {
+        margin-bottom: 10px;
+        a {
+          display: block;
+          font-size: 14px;
+          color: $footer-link-color;
+          &:hover {
+            color: $footer-link-color--hover;
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
+
+  .block.about  {
+    img {
+      margin-bottom: 25px;
+    }
+    p {
+      line-height: 26px;
+    }
+  }
+
+  ul.terms-list {
+    margin-top: 10px;
+    li {
+      a {
+        padding-right: 10px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .footer .block:last-child {
+    margin-bottom: 30px;
+  }
+}
+
+.footer-bottom {
+  position: relative;
+  background: #363839;
+  padding: 25px 0;
+  .copyright p {
+    color: $footer-bottom-color;
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-bottom {
+    text-align: center;
+  }
+}
+
+.top-to {
+  position: absolute;
+  right: 20px;
+  bottom: 50px;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  a {
+    width: 40px;
+    height: 40px;
+    background: $btn-top-to-bg;
+    color: $btn-top-to-color;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    &:hover {
+      text-decoration: none;
+    }
+    i {
+      line-height: 40px;
+    }
+  }
+}

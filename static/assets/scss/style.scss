@@ -1,0 +1,109 @@
+/*=== MEDIA QUERY ===*/
+@import url("https://fonts.googleapis.com/css?family=Muli:300,400,600,700,800,900");
+
+@import "./_color_scheme.scss";
+
+$text-color: map-get($theme-colors, "secondary-dark");
+$a-color: map-get($theme-colors, "primary");
+$p-color: map-get($theme-colors, "secondary");
+$h-color: map-get($theme-colors, "dark");
+$label-color: map-get($theme-colors, "secondary");
+
+$widget-link-color: #848484;
+$widget-header-color: #666;
+$widget-bg: #ebebeb;
+$widget-secondary: #848484;
+$widget-checkbox-bg: #fff;
+$widget-checkbox-bg-checked: #5672f9;
+$input-group-light: #fff;
+$link-color: #5672f9;
+$input-group-primary: #5672f9;
+$light-bg-color: #fff;
+$article-btn-primary: #5672f9;
+$article-btn-light: #fff;
+$btn-search-primary: #5672f9;
+$btn-search-bg-hover: #fff;
+$hero-banner-url: "/assets/images/home/hero.jpg";
+
+$fa-font-path: "/assets/fonts";
+@import "../../../vendor/components/font-awesome/scss/solid.scss";
+@import "../../../vendor/components/font-awesome/scss/fontawesome.scss";
+
+body {
+  line-height: 1.5;
+  font-family: "Muli", sans-serif;
+}
+
+p, li, input, select, button {
+  font-family: "Muli", sans-serif;
+  color: $text-color;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Muli", sans-serif;
+  font-weight: 600;
+  color: $h-color;
+}
+
+p {
+  color: $p-color;
+}
+
+h1 {
+  font-size: 35px;
+}
+
+h2 {
+  font-size: 25px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+h4 {
+  font-size: 18px;
+}
+
+a {
+  color: $a-color;
+  text-decoration: none;
+}
+
+label {
+  font-size: 14px;
+  letter-spacing: 0;
+  color: $label-color;
+}
+
+// *** Base Style ***
+@import "./base";
+
+// *** Buttons ***
+@import "./buttons";
+
+// *** Navigation ***
+@import "./navigation";
+
+// *** Widgets ***
+@import "./widgets";
+
+// *** Footer ***
+@import "./footer";
+
+// *** Home Page ***
+@import "./home_page";
+
+// *** Category Page ***
+@import "./category_page";
+
+// *** Article Item ***
+@import "./article_item";
+
+// *** Article ***
+@import "./article";
+
+// *** Pagination ***
+@import "./pagination";

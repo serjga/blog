@@ -1,0 +1,14 @@
+$primary-hex: #5672f9;
+
+$theme-colors: (
+    "primary": $primary-hex,
+    "primary-light": lighten($primary-hex, 20%),
+    "primary-dark": darken($primary-hex, 5%),
+    "secondary": #848484,
+    "secondary-dark": #666,
+    "secondary-light": #84919B,
+    "light": #fff,
+    "light-mute": #dfdfdf,
+    "light-dark": #dedede,
+    "dark": #333,
+);

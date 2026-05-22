@@ -1,0 +1,42 @@
+@import "./_color_scheme.scss";
+
+$category-name-block-bg-color: map-get($theme-colors, "primary");
+$category-name-block-color: map-get($theme-colors, "light");
+$category-search-result-bg-color: map-get($theme-colors, "light-dark");
+
+.category-description {
+  p {
+    white-space: pre-wrap;
+    text-align: justify;
+    font-size: 18px;
+  }
+}
+
+.page-title {
+  background: $category-name-block-bg-color;
+  padding: 35px 0;
+  h3 {
+    color: $category-name-block-color;
+    font-size: 42px;
+    letter-spacing: 0;
+    line-height: 1;
+    margin-bottom: 0;
+  }
+}
+
+.search-result {
+  background: $category-search-result-bg-color;
+  padding: 20px;
+  margin-bottom: 20px;
+  p {
+    margin: 0;
+  }
+}
+
+.category-search-filter {
+  background: $category-search-result-bg-color;
+  padding: 20px;
+  strong {
+    margin: 0 5px;
+  }
+}

@@ -54,7 +54,7 @@ class ArticleController extends \App\Controller\Controller
             ->addTemplateVariable('recommendedArticles', array_values($data['recommendedArticles']))
             ->addTemplateVariable('relatedArticles', array_values($data['relatedArticles']))
             ->addTemplateVariable('categoryList', $data['categoryList'] ?? '')
-            ->render('Article/index.tpl');
+            ->render('article/index.tpl');
     }
 
     protected function _prepareCategoriesData(& $data): void
@@ -96,11 +96,13 @@ class ArticleController extends \App\Controller\Controller
         }
 
 //        $article = $articles[0];
+        $content = preg_replace('/\s+/', ' ', $article->content);
+        $content = '<p>' . str_replace("\n", "</p><p>", $content) . '</p>';
 
         $data['article'] = [
             'id' => $article->article_id,
             'title' => $article->title,
-            'content' => $article->content,
+            'content' => $content,
             'date' => $article->created_at,
             'views' => $article->views,
             'categories' => [],

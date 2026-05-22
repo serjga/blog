@@ -8,19 +8,18 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Calssimax</title>
 
+
         <!-- PLUGINS CSS STYLE -->
-        <link href="{url->getUrl path="/plugins/jquery-ui/jquery-ui.min.css"}" rel="stylesheet">
+{*        <link href="{url->getUrl path="/plugins/jquery-ui/jquery-ui.min.css"}" rel="stylesheet">*}
         <!-- Bootstrap -->
-        <link href="{url->getUrl path="/plugins/bootstrap/dist/css/bootstrap.min.css"}" rel="stylesheet">
-        <!-- Font Awesome -->
-        <link href="{url->getUrl path="/plugins/font-awesome/css/font-awesome.min.css"}" rel="stylesheet">
+        <link href="{url->getUrl path="/plugins/bootstrap/css/bootstrap.min.css"}" rel="stylesheet">
         <!-- Owl Carousel -->
         <link href="{url->getUrl path="/plugins/slick-carousel/slick/slick.css"}" rel="stylesheet">
         <link href="{url->getUrl path="/plugins/slick-carousel/slick/slick-theme.css"} rel="stylesheet">
         <!-- Fancy Box -->
-        <link href="{url->getUrl path="/plugins/fancybox/jquery.fancybox.pack.css"}" rel="stylesheet">
+{*        <link href="{url->getUrl path="/plugins/fancybox/jquery.fancybox.pack.css"}" rel="stylesheet">*}
         <link href="{url->getUrl path="/plugins/jquery-nice-select/css/nice-select.css"}" rel="stylesheet">
-        <link href="{url->getUrl path="/plugins/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css"}" rel="stylesheet">
+{*        <link href="{url->getUrl path="/plugins/seiyria-bootstrap-slider/dist/css/bootstrap-slider.min.css"}" rel="stylesheet">*}
         <!-- CUSTOM CSS -->
         <link href="{url->getUrl path="/css/style.css"}" rel="stylesheet">
 
@@ -43,12 +42,12 @@
         <script src="{url->getUrl path="/plugins/jquery-ui/jquery-ui.min.js"}"></script>
         <script src="{url->getUrl path="/plugins/tether/js/tether.min.js"}"></script>
         <script src="{url->getUrl path="/plugins/raty/jquery.raty-fa.js"}"></script>
-        <script src="{url->getUrl path="/plugins/bootstrap/dist/js/popper.min.js"}"></script>
-        <script src="{url->getUrl path="/plugins/bootstrap/dist/js/bootstrap.min.js"}"></script>
+        <script src="{url->getUrl path="/plugins/bootstrap/popper.min.js"}"></script>
+        <script src="{url->getUrl path="/plugins/bootstrap/js/bootstrap.min.js"}"></script>
         <script src="{url->getUrl path="/plugins/seiyria-bootstrap-slider/dist/bootstrap-slider.min.js"}"></script>
         <script src="{url->getUrl path="/plugins/slick-carousel/slick/slick.min.js"}"></script>
         <script src="{url->getUrl path="/plugins/jquery-nice-select/js/jquery.nice-select.min.js"}"></script>
-        <script src="{url->getUrl path="/plugins/fancybox/jquery.fancybox.pack.js"}"></script>
+{*        <script src="{url->getUrl path="/plugins/fancybox/jquery.fancybox.pack.js"}"></script>*}
         <script src="{url->getUrl path="/plugins/smoothscroll/SmoothScroll.min.js"}"></script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script>
         <script src="{url->getUrl path="/js/scripts.js"}"></script>

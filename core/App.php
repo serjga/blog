@@ -10,6 +10,7 @@ use Redis;
 
 class App {
     function __construct() {
+        date_default_timezone_set(DateTimeZone::listIdentifiers(DateTimeZone::UTC)[0]);
         $this->_init();
     }
 
@@ -26,8 +27,6 @@ class App {
         $redis->connect('sessions', 6379);
 
         $this->_updateViewsCookie();
-
-        date_default_timezone_set(DateTimeZone::listIdentifiers(DateTimeZone::UTC)[0]);
 
         $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
         $dotenv->load();

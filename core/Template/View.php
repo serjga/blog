@@ -3,6 +3,7 @@ namespace App\Template;
 
 use App\Request\Url;
 use Smarty\Smarty;
+use ScssPhp\ScssPhp\Compiler;
 
 class View
 {

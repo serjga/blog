@@ -1,3 +1,4 @@
 /vendor/
+/public/assets/
 /static/templates_c/
 .env

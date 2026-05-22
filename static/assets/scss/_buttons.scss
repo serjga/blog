@@ -1,0 +1,93 @@
+@import "./_color_scheme.scss";
+
+$btn-main-color: map-get($theme-colors, "light");
+$btn-main-color--hover: map-get($theme-colors, "light");
+$btn-main-bg-color: map-get($theme-colors, "primary");
+$btn-main-bg-color--hover: map-get($theme-colors, "primary-dark");
+$btn-main-border: 1px solid map-get($theme-colors, "primary");
+$btn-main-border--hover: 1px solid map-get($theme-colors, "primary");
+
+$btn-color--focus: map-get($theme-colors, "primary");
+$btn-transparent-color: map-get($theme-colors, "primary");
+$btn-transparent-border: 1px solid map-get($theme-colors, "primary");
+$btn-transparent-bg-color--hover: $btn-transparent-color;
+$btn-transparent-color--hover: map-get($theme-colors, "light");
+
+$btn-outline-color: map-get($theme-colors, "primary");
+$btn-outline-color--hover: map-get($theme-colors, "light");
+$btn-outline-bg-color: map-get($theme-colors, "light");
+$btn-outline-bg-color--hover: map-get($theme-colors, "primary");
+$btn-outline-border: 1px solid map-get($theme-colors, "primary");
+$btn-outline-border--hover: 1px solid map-get($theme-colors, "primary");
+
+.btn {
+  font-size: 15px;
+  letter-spacing: 1px;
+  display: inline-block;
+  padding: 15px 30px;
+  border-radius: 4px;
+  &:focus {
+    color: $btn-color--focus;
+    box-shadow: none;
+  }
+}
+
+.btn-sm {
+  @extend .btn;
+  padding: 6px 14px;
+  font-size: 12px;
+}
+
+.btn-outline {
+  background: $btn-outline-bg-color;
+  color: $btn-outline-color;
+  border: $btn-outline-border;
+  &:hover {
+    border: $btn-outline-border;
+    background: $btn-outline-bg-color--hover;
+    color: $btn-outline-color--hover;
+  }
+  &:focus, &:active {
+    color: $btn-outline-color;
+    box-shadow: none;
+    border: $btn-outline-border;
+    background: $btn-outline-bg-color;
+  }
+}
+.btn-main {
+  background: $btn-main-bg-color;
+  color: $btn-main-color;
+  border: $btn-main-border;
+  &:hover {
+    background: $btn-main-bg-color--hover;
+    color: $btn-main-color--hover;
+    border: $btn-main-border--hover;
+    box-shadow: none;
+  }
+  &:focus, &:active {
+    background: $btn-main-bg-color;
+    color: $btn-main-color;
+    border: $btn-main-border;
+    box-shadow: none;
+  }
+}
+
+.btn-group {
+  .btn {
+    i {
+      font-size: 16px;
+      line-height: 40px;
+    }
+    &:focus {
+      color: $btn-color--focus;
+    }
+  }
+}
+
+.mb-30 {
+  margin-bottom: 20px;
+}
+
+.mt-30 {
+  margin-top: 30px;
+}

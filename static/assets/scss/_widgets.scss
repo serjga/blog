@@ -1,0 +1,245 @@
+@import "./_color_scheme.scss";
+
+$widget-background-color: map-get($theme-colors, "light");
+$widget-color: map-get($theme-colors, "secondary");
+$widget-link-color: map-get($theme-colors, "secondary");
+$widget-link-color--hover: map-get($theme-colors, "primary");
+
+$widget-header-color: map-get($theme-colors, "secondary-dark");
+$widget-header-border-bottom-color: map-get($theme-colors, "light-dark");
+
+$widget-category-item-count-bg-color: #F4F7F9;
+$widget-category-item-count-color: map-get($theme-colors, "secondary");
+
+$widget-select-bg-color: map-get($theme-colors, "light");
+$widget-select-picker-color: map-get($theme-colors, "dark");
+
+$widget-input-group-bg-color: map-get($theme-colors, "primary");
+$widget-input-group-control-color: map-get($theme-colors, "light");
+$widget-input-group-color: map-get($theme-colors, "light");
+$widget-input-group-placeholder: map-get($theme-colors, "secondary");
+$widget-input-group-border-color: map-get($theme-colors, "light-mute");
+$widget-input-group-border: 1px solid $widget-input-group-border-color;
+
+$widget-checkbox-bg-color: map-get($theme-colors, "light");
+$widget-checkbox-bg-color-checked: map-get($theme-colors, "primary");
+$widget-checkbox-border-color: map-get($theme-colors, "secondary");
+$widget-checkbox-border-color--checked: map-get($theme-colors, "primary");
+
+$widget-related-article-title-color: map-get($theme-colors, "dark");
+$widget-related-article-title-color--hover: map-get($theme-colors, "primary");
+
+.widget {
+  background: $widget-background-color;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  padding: 25px 30px 30px;
+  margin-bottom: 30px;
+  border-radius: 2px;
+  color: $widget-color;
+  .widget-header {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid $widget-header-border-bottom-color;
+    color: $widget-header-color;
+    a {
+      color: $widget-link-color;
+      text-decoration: none;
+      &:hover {
+        color: $widget-link-color--hover;
+      }
+    }
+  }
+  ul {
+    li {
+      a {
+        text-decoration: none;
+        padding: 8px 0;
+        display: block;
+        color: $widget-link-color;
+        &:hover {
+          color: $widget-link-color--hover;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
+
+// widget category list
+.widget.sidebar-category {
+  h4.widget-header a {
+    text-decoration: none;
+    color: $widget-header-color;
+    &:hover {
+      color: $widget-link-color--hover;
+    }
+  }
+  ul.category-list {
+    li {
+      a {
+        span {
+          float: right;
+          font-size: 10px;
+          background: $widget-category-item-count-bg-color;
+          border-radius: 10px;
+          padding: 5px 5px;
+          color: $widget-category-item-count-color;
+        }
+      }
+      &:not(:last-child) {
+        border-bottom: 1px solid $widget-category-item-count-bg-color;
+      }
+    }
+  }
+}
+
+// widget list
+.widget.archive {
+  ul.archive-list {
+    li {
+      a:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+// widget select filter
+.widget.filter {
+  select {
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 100%;
+    padding: 5px 40px 5px 10px;
+    border: $widget-input-group-border;
+    color: $widget-color;
+    border-radius: 5px;
+    background-color: $widget-select-bg-color;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(0,0,0,0.5)' stroke-width='2'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px;
+
+    &::picker-icon {
+      color: $widget-select-picker-color;
+      transition: rotate 0.4s;
+    }
+    &::-ms-expand {
+      display: none;
+    }
+  }
+}
+
+// widget search input group
+@media (max-width: 768px) {
+  .widget.search {
+    margin-top: 30px;
+  }
+}
+
+.widget.search {
+  .input-group {
+    .form-control {
+      border: none;
+      border-top-left-radius: 2px;
+      border-bottom-left-radius: 2px;
+      background: $widget-input-group-control-color;
+      &::placeholder {
+        color: $widget-input-group-placeholder;
+        opacity: 1;
+      }
+    }
+
+    .input-group-addon {
+      padding: 0.75rem 0.75rem;
+      background: $widget-input-group-bg-color;
+      color: $widget-input-group-color;
+      border: none;
+      border-bottom-right-radius: 2px;
+      border-top-right-radius: 2px;
+      i {
+        font-size: 15px;
+        padding-right: 5px;
+        padding-left: 5px;
+      }
+    }
+  }
+}
+
+// widget checkbox filter
+.widget.article-checkbox-filter {
+  .form-check {
+    margin-bottom: 4px;
+    padding: 5px 0;
+    .container {
+      padding: 0;
+      input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+      }
+    }
+
+    .checkmark {
+      height: 15px;
+      width: 15px;
+      background-color: $widget-checkbox-bg-color;
+      border: $widget-input-group-border;
+      border-radius: 4px;
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    .container input:checked ~ .checkmark {
+      background-color: $widget-checkbox-bg-color-checked;
+      border-color: $widget-checkbox-border-color--checked;
+    }
+
+    .checkmark:after {
+      content: "";
+      display: none;
+      border: solid $widget-checkbox-bg-color;
+      border-width: 0 3px 3px 0;
+      transform: rotate(45deg);
+      width: 5px;
+      height: 10px;
+      margin-left: 4px;
+      margin-top: 1px;
+    }
+
+    .container input:checked ~ .checkmark:after {
+      display: block;
+    }
+  }
+}
+
+// widget article cards
+.widget.related-article {
+  .card-item {
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    .card {
+      border: none;
+      .card-body {
+        padding: 20px;
+        .card-title {
+          font-size: 18px;
+          margin-bottom: 5px;
+          font-weight: 600;
+          a {
+            color: $widget-related-article-title-color;
+            &:hover {
+              color: $widget-related-article-title-color--hover;
+            }
+          }
+        }
+      }
+    }
+  }
+}

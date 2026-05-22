@@ -41,7 +41,7 @@ class HomeController extends Controller
             ->addTemplateVariable('popularCategories', $data['popularCategories'])
             ->addTemplateVariable('popularArticles', $data['popularArticles'])
             ->addTemplateVariable('categoryList', $data['categoryList'])
-            ->render('Home/index.tpl');
+            ->render('home/index.tpl');
     }
 
 

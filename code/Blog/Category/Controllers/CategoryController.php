@@ -15,7 +15,7 @@ use Blog\Tag\Resource\TagResource;
 class CategoryController extends Controller
 {
     const int TAGS_LIMIT = 10;
-    const int ARTICLE_LIMIT = 6;
+    const int ARTICLE_LIMIT = 3;
     protected CategoryResourceFactory $_categoryResourceFactory;
     protected ArticleResourceFactory $_articleResourceFactory;
     protected TagResourceFactory $_tagResourceFactory;
@@ -64,7 +64,7 @@ class CategoryController extends Controller
             ->addTemplateVariable('totalPages', $data['totalPages'])
             ->addTemplateVariable('search', $data['search'] ?? '')
             ->addTemplateVariable('searchResult', $data['searchResult'] ?? null)
-            ->render('Category/index.tpl');
+            ->render('category/index.tpl');
     }
 
     protected function _prepareSortParams($requestParams, & $data): void
