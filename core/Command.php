@@ -10,7 +10,7 @@ class Command
     function __construct() {
     }
 
-    public function run($command): void
+    public function run($command, ?string $args = null): void
     {
         if (empty($command)) {
             echo "Command name is required. \n";
@@ -24,7 +24,7 @@ class Command
                 /** @var  \App\Command\CommandInterface $routerClass */
                 $commandClass = new $scriptClassName();
                 if ($commandClass instanceof CommandInterface) {
-                    $commandClass->execute();
+                    $commandClass->execute($args);
                 } else {
                     // log error
                     echo "$scriptClassName must implement App\Command\CommandInterface. \n";

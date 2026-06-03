@@ -2,6 +2,7 @@
 @import "./_color_scheme.scss";
 
 $popular-articles-section-bg: map-get($theme-colors, "light-mute");
+$btn-search-bg-hover: map-get($theme-colors, "light");
 
 .page-search {
   background: #5672f9;

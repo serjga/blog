@@ -2,8 +2,6 @@
 
 namespace App;
 
-use App\Cookie\Cookie;
-use App\Session\Session;
 use DateTimeZone;
 use App\Router\Router;
 use Redis;
@@ -17,6 +15,7 @@ class App {
     public function run(): void
     {
         (new Router())->compilate();
+
     }
 
     private function _init(): void
@@ -26,17 +25,7 @@ class App {
         $redis = new Redis();
         $redis->connect('sessions', 6379);
 
-        $this->_updateViewsCookie();
-
         $dotenv = \Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
         $dotenv->load();
-    }
-
-    private function _updateViewsCookie(): void
-    {
-        $tmpSessionKey = 'need_update_article_views_cookie';
-        if (Session::hasTemporary($tmpSessionKey)) {
-            Cookie::set(Session::getTemporary($tmpSessionKey), 1);
-        }
     }
 }

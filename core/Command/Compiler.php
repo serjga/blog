@@ -4,12 +4,12 @@ use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use ScssPhp\ScssPhp\Compiler as ScssPhpCompiler;
 use ScssPhp\ScssPhp\OutputStyle;
-use Smarty\Smarty;
 
 class Compiler implements CommandInterface
 {
     protected string $_destPath = __DIR__ . "/../../public/assets";
-    protected string $_srcPath = __DIR__ . "/../../static/assets";
+    protected string $_srcStaticPath = __DIR__ . "/../../static/assets";
+    protected string $_vendorSrcPath = __DIR__ . "/../../vendor";
 
     public function execute(): int
     {
@@ -17,6 +17,7 @@ class Compiler implements CommandInterface
         $this->_compileImages();
         $this->_compileStyles();
         $this->_compileFonts();
+        $this->_compileScripts();
         return 1;
     }
 
@@ -41,16 +42,25 @@ class Compiler implements CommandInterface
 
     private function _compileStyles(): void
     {
-        $src = "$this->_srcPath/scss/style.scss";
+        // bootstrap
+        $bootstrapSrcPath = $this->_vendorSrcPath . "/twbs/bootstrap/dist/css/bootstrap.css";
+        $bootstrapDist = $this->_destPath . "/plugins/bootstrap/css";
+        if (!is_dir($bootstrapDist)) {
+            mkdir($bootstrapDist, 0755, true);
+        }
+        copy($bootstrapSrcPath, "$bootstrapDist/bootstrap.min.css");
+
+        // scss
+        $src = "$this->_srcStaticPath/scss/style.scss";
         $dst = "$this->_destPath/css";
 
         $scssCompiler = new ScssPhpCompiler();
         $scssCompiler->setOutputStyle(OutputStyle::COMPRESSED);
         $scssCompiler->setImportPaths([
-            "$this->_srcPath/scss",
-            __DIR__ . "/../../vendor/components/font-awesome/scss",
-            __DIR__ . "/../../vendor/components/font-awesome/webfonts",
-            __DIR__ . '/../../vendor/twbs/bootstrap/scss'
+            "$this->_srcStaticPath/scss",
+            "$this->_vendorSrcPath/components/font-awesome/scss",
+            "$this->_vendorSrcPath/components/font-awesome/webfonts",
+            "$this->_vendorSrcPath/npm-asset/jquery-nice-select/scss"
         ]);
 
         if (!is_dir($dst)) {
@@ -62,14 +72,12 @@ class Compiler implements CommandInterface
 
         file_put_contents("$dst/style.css", $cssOut);
 
-        (new Smarty())->clearAllCache();
-
         echo "Styles successfully compiled.\n";
     }
 
     private function _compileImages(): void
     {
-        $src = "$this->_srcPath/images";
+        $src = "$this->_srcStaticPath/images";
         $dst = "$this->_destPath/images";
         if (!is_dir($dst)) {
             mkdir($dst, 0755, true);
@@ -101,7 +109,7 @@ class Compiler implements CommandInterface
 
     private function _compileFonts(): void
     {
-        $src = __DIR__ . "/../../vendor/components/font-awesome/webfonts";
+        $src = "$this->_vendorSrcPath/components/font-awesome/webfonts";
         $dst = "$this->_destPath/fonts";
 
         if (!is_dir($dst)) {
@@ -112,5 +120,45 @@ class Compiler implements CommandInterface
         copy("$src/fa-solid-900.woff2", "$dst/fa-solid-900.woff2");
 
         echo "Fonts successfully compiled.\n";
+    }
+
+    private function _compileScripts(): void
+    {
+        // bootstrap
+        $srcBootstrap = "$this->_vendorSrcPath/twbs/bootstrap/dist/js/bootstrap.min.js";
+        $dstBootstrap = "$this->_destPath/plugins/bootstrap/js";
+        if (!is_dir($dstBootstrap)) {
+            mkdir($dstBootstrap, 0755, true);
+        }
+        copy($srcBootstrap, "$dstBootstrap/bootstrap.js");
+
+        // jquery
+        $srcJquery = "$this->_vendorSrcPath/npm-asset/jquery/dist/jquery.min.js";
+        $dstJquery = "$this->_destPath/plugins/jquery";
+        if (!is_dir($dstJquery)) {
+            mkdir($dstJquery, 0755, true);
+        }
+        copy($srcJquery, "$dstJquery/jquery.min.js");        
+        
+        // jquery nice select
+        $srcJqueryNiceSelect = "$this->_vendorSrcPath/npm-asset/jquery-nice-select/js/jquery.nice-select.min.js";
+        $dstJqueryNiceSelect = "$this->_destPath/plugins/jquery-nice-select/js";
+        
+        if (!is_dir($dstJqueryNiceSelect)) {
+            mkdir($dstJqueryNiceSelect, 0755, true);
+        }
+        copy($srcJqueryNiceSelect, "$dstJqueryNiceSelect/jquery.nice-select.min.js");
+        
+        // scripts
+        $srcScripts = "$this->_srcStaticPath/js/scripts.js";
+        $dstScripts = "$this->_destPath/js";
+
+        if (!is_dir($dstScripts)) {
+            mkdir($dstScripts, 0755, true);
+        }
+
+        copy($srcScripts, "$dstScripts/scripts.js");
+
+        echo "Scripts successfully compiled.\n";
     }
 }

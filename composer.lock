@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b8377bc2d3fac721b6c8c4f276c65bf1",
+    "content-hash": "532e6b5484f04eb4d6bcf96165a326e1",
     "packages": [
         {
             "name": "components/font-awesome",
@@ -288,6 +288,33 @@
                 }
             ],
             "time": "2026-03-08T20:05:35+00:00"
+        },
+        {
+            "name": "npm-asset/jquery",
+            "version": "2.2.4",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/jquery/-/jquery-2.2.4.tgz"
+            },
+            "type": "npm-asset",
+            "license": [
+                "MIT"
+            ]
+        },
+        {
+            "name": "npm-asset/jquery-nice-select",
+            "version": "1.1.0",
+            "dist": {
+                "type": "tar",
+                "url": "https://registry.npmjs.org/jquery-nice-select/-/jquery-nice-select-1.1.0.tgz"
+            },
+            "require": {
+                "npm-asset/jquery": ">=2.2.3,<3.0.0"
+            },
+            "type": "npm-asset",
+            "license": [
+                "ISC"
+            ]
         },
         {
             "name": "phpoption/phpoption",

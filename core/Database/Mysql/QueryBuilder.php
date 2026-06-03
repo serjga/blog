@@ -8,9 +8,13 @@ class QueryBuilder implements QueryBuilderInterface {
     const string SELECT_QUERY = "SELECT";
     const string COUNT_QUERY = "COUNT";
     const string UPDATE_QUERY = "UPDATE";
+    const string INSERT_QUERY = "INSERT";
     const string SELECT = "SELECT";
     const string UPDATE = "UPDATE";
+    const string INSERT = "INSERT";
     const string SET = "SET";
+    const string COLUMNS = "COLUMNS";
+    const string VALUES = "VALUES";
     const string COUNT = "COUNT";
     const string JOIN = "JOIN";
     const string FROM = "FROM";
@@ -51,6 +55,27 @@ class QueryBuilder implements QueryBuilderInterface {
         self::WHERE
     ];
 
+    private array $_insertQueryStructure = [
+        self::INSERT,
+        self::COLUMNS,
+        self::SET
+    ];
+
+    public function insert(string $table, array $values = []): self
+    {
+        if (is_null($this->_queryType)) {
+            $this->_queryType = self::INSERT_QUERY;
+            $this->_queryData[self::INSERT] = $table;
+
+            foreach ($values as $column => $value) {
+                $this->_queryData[self::COLUMNS][] = $column;
+                $this->_queryData[self::VALUES][] = ":$column";
+                $this->_queryValues[$column] = $value;
+            }
+        }
+        return $this;
+    }
+
     public function update(string $table, array $sets, array $values = []): self
     {
         if (is_null($this->_queryType)) {
@@ -60,7 +85,7 @@ class QueryBuilder implements QueryBuilderInterface {
                 $this->_queryData[self::SET][] = $set;
             }
             foreach ($values as $key => $value) {
-                $this->_queryValues[$key] = $value;
+                $this->_queryValues[$key] = "'$value'";
             }
         }
         return $this;
@@ -131,6 +156,20 @@ class QueryBuilder implements QueryBuilderInterface {
         return $this;
     }
 
+    public function whereIn(string $column , array $conditions): self
+    {
+        $conditionStr = "'" . implode("','", $conditions) . "'";
+        $this->_queryData[self::WHERE][] = "$column IN ($conditionStr)";
+        return $this;
+    }
+
+    public function whereNotIn(string $column , array $conditions): self
+    {
+        $conditionStr = "'" . implode("','", $conditions) . "'";
+        $this->_queryData[self::WHERE][] = "$column NOT IN ($conditionStr)";
+        return $this;
+    }
+
     public function limit(int $limit): self
     {
         $this->_queryData[self::LIMIT] = $limit;
@@ -184,6 +223,7 @@ class QueryBuilder implements QueryBuilderInterface {
             self::COUNT_QUERY => $this->_compileCountSql(),
             self::SELECT_QUERY => $this->_compileSelectSql(),
             self::UPDATE_QUERY => $this->_compileUpdateSql(),
+            self::INSERT_QUERY => $this->_compileInsertSql(),
             default => '',
         };
     }
@@ -234,9 +274,26 @@ class QueryBuilder implements QueryBuilderInterface {
         return implode(' ', $queryData);
     }
 
+    private function _compileInsertSql(): string
+    {
+        if (!$this->_queryData) {
+            return '';
+        }
+
+        $queryData = [];
+        foreach (array_replace(array_intersect_key(array_flip($this->_insertQueryStructure), $this->_queryData), $this->_queryData) as $key => $value) {
+            $queryData[] = $this->_getSqlString($key);
+        }
+
+        return implode(' ', $queryData);
+    }
+
     private function _getSqlString ($key): string
     {
         return match ($key) {
+            self::INSERT => "INSERT INTO " . $this->_queryData[$key],
+            self::COLUMNS => '(' . implode(', ', array_unique($this->_queryData[$key])) . ')',
+            self::VALUES => 'VALUES (' . implode(', ', array_unique($this->_queryData[$key])) . ')',
             self::UPDATE => "UPDATE  " . $this->_queryData[$key],
             self::SET => "SET " . implode(', ', array_unique($this->_queryData[$key])),
             self::SELECT => "SELECT " . implode(', ', array_unique($this->_queryData[$key])),

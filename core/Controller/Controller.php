@@ -2,21 +2,27 @@
 
 namespace App\Controller;
 
-use App\Request\Request;
-
 class Controller implements ControllerInterface
 {
     protected \App\Request\Request $_request;
 
-    function __construct()
+    function __construct(\App\Request\RequestFactory $requestFactory)
     {
-        $this->_request = (new Request());
+        $this->_request = $requestFactory->create();
+        $this->saveHistory();
     }
 
-    public function getRequest(): Request
+    public function getRequest(): \App\Request\Request
     {
         return $this->_request;
     }
 
     public function index() {}
+
+    public function saveHistory(): void
+    {
+        if (!($this instanceof \Blog\Base\Controller\NotFoundPageController)) {
+            $this->_request->saveHistory();
+        }
+    }
 }

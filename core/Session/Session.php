@@ -51,9 +51,7 @@ class Session
 
     public static function getTemporary(string $sessionKey)
     {
-        $values = $_SESSION['TEMPORARY_SESSION'][$sessionKey] ?? null;
-        self::forget($sessionKey);
-        return $values;
+        return $_SESSION['TEMPORARY_SESSION'][$sessionKey] ?? null;
     }
 
     public static function forget($sessionKey = null): void

@@ -4,6 +4,13 @@ $article-card-text-color: map-get($theme-colors, "secondary-dark");
 $article-card-text-color--hover: map-get($theme-colors, "primary");
 $article-card-title-color: map-get($theme-colors, "dark");
 
+.dynamic-block {
+  .article-block-row {
+    display: grid;
+    gap: calc(var(--bs-gutter-x) * .5);
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+}
 
 .article-block-row {
   display: flex;
@@ -51,6 +58,12 @@ $article-card-title-color: map-get($theme-colors, "dark");
       background-position: center;
       background-size: cover;
     }
+
+    &.single-article-item {
+      .thumb-content {
+        height: 350px;
+      }
+    }
   }
 }
 
@@ -61,6 +74,9 @@ $article-card-title-color: map-get($theme-colors, "dark");
       flex: none;
       .card {
         height: auto;
+      }
+      .thumb-content {
+        height: 300px;
       }
     }
   }

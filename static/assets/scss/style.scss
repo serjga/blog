@@ -9,29 +9,20 @@ $p-color: map-get($theme-colors, "secondary");
 $h-color: map-get($theme-colors, "dark");
 $label-color: map-get($theme-colors, "secondary");
 
-$widget-link-color: #848484;
-$widget-header-color: #666;
-$widget-bg: #ebebeb;
-$widget-secondary: #848484;
-$widget-checkbox-bg: #fff;
-$widget-checkbox-bg-checked: #5672f9;
-$input-group-light: #fff;
-$link-color: #5672f9;
-$input-group-primary: #5672f9;
-$light-bg-color: #fff;
-$article-btn-primary: #5672f9;
-$article-btn-light: #fff;
-$btn-search-primary: #5672f9;
-$btn-search-bg-hover: #fff;
 $hero-banner-url: "/assets/images/home/hero.jpg";
 
 $fa-font-path: "/assets/fonts";
 @import "../../../vendor/components/font-awesome/scss/solid.scss";
 @import "../../../vendor/components/font-awesome/scss/fontawesome.scss";
+@import "../../../vendor/npm-asset/jquery-nice-select/scss/nice-select.scss";
 
 body {
   line-height: 1.5;
   font-family: "Muli", sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 p, li, input, select, button {
@@ -107,3 +98,6 @@ label {
 
 // *** Pagination ***
 @import "./pagination";
+
+// *** Pagination ***
+@import "./alert";

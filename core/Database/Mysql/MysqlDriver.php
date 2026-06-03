@@ -1,18 +1,25 @@
 <?php
 namespace App\Database\Mysql;
 
-use App\Database\DatabaseDriverInterface;
-use App\Database\QueryBuilderInterface;
 use PDO;
 use PDOStatement;
+use App\Config\Config;
+use App\Logger\Logger;
+use App\Logger\MysqlLogger;
+use App\Database\QueryBuilderInterface;
+use App\Database\DatabaseDriverInterface;
 
 class MysqlDriver implements DatabaseDriverInterface {
+    use Logger;
+    use MysqlLogger;
 
     private Mysql $_db;
     private ?PDOStatement $_stmt;
+    private bool $_dbQueryLog;
 
     function __construct() {
         $this->_db = Mysql::getInstance();
+        $this->_dbQueryLog = (bool) (new Config('app'))->get('save_db_logs');
     }
 
     public function query(QueryBuilderInterface $queryBuilder): self
@@ -21,21 +28,34 @@ class MysqlDriver implements DatabaseDriverInterface {
         $sql = $queryBuilder->toString();
 
         try {
+            if ($this->_dbQueryLog) {
+                $this->queryLog($sql, $params);
+            }
+
             if (count($params) > 0) {
-                $this->_stmt = $this->connection()->prepare($sql);
+                $this->_stmt = $this->connection()?->prepare($sql);
                 $this->_stmt->execute($params);
             } else {
-                $this->_stmt =  $this->connection()->query($sql);
+                $this->_stmt =  $this->connection()?->query($sql);
             }
         } catch (\PDOException $e) {
-            $this->_errorLog($sql, $params, $e);
+            $message = "DATABASE ERROR: " . $e->getMessage();
+            $trace = $e->getTraceAsString();
+            $this->log($message, ['sql' => $sql, 'params' => $params, 'trace' => $trace]);
         }
         return $this;
     }
 
-    public function connection(): PDO
+    public function connection(): ?PDO
     {
-        return $this->_db->getConnection();
+        try {
+            return $this->_db->getConnection();
+        } catch (\Throwable $e) {
+            $message = "DATABASE CONNECTION ERROR: " . $e->getMessage();
+            $trace = $e->getTraceAsString();
+            $this->log($message, ['trace' => $trace]);
+            return null;
+        }
     }
 
     public function all($assoc = false): array
@@ -55,43 +75,7 @@ class MysqlDriver implements DatabaseDriverInterface {
 
     public function one($assoc = false): object|array|null
     {
-        return $this->_stmt?->fetch($assoc ? PDO::FETCH_ASSOC : PDO::FETCH_OBJ) ?? null;
-    }
-
-    public function log($queryString, $params): void
-    {
-        echo "<pre>";
-        print_r('
-                ========================================================
-                ********************** MYSQL QUERY *********************
-                ========================================================
-            ');
-        echo "</pre>";
-        print_r($queryString);
-        echo "<pre>";
-        print_r('
-                ........................ SQL PARAMS ....................
-            ');
-        print_r($params);
-        echo "</pre>";
-    }
-
-    protected function _errorLog($queryString, $params, \PDOException $e): void
-    {
-        echo "<pre>";
-        print_r('  
-                ========================================================
-                --------------------- ERROR MESSAGE --------------------
-                ========================================================
-                ');
-        echo "</pre>";
-        print_r($e->getMessage());
-        echo "<pre>";
-
-        print_r('
-                --------------------- ERROR TRACE ----------------------
-                ');
-        print_r($e->getTrace());
-        echo "</pre>";
+        $res = $this->_stmt?->fetch($assoc ? PDO::FETCH_ASSOC : PDO::FETCH_OBJ);
+        return $res ?: null;
     }
 }

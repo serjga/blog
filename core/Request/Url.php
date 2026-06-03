@@ -7,7 +7,7 @@ class Url
     protected Request $_request;
     function __construct ()
     {
-        $this->_request = (new Request());
+        $this->_request = (new RequestFactory())->create();
     }
 
     public function getUrl(array $params): string

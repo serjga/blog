@@ -23,6 +23,9 @@ class Resource implements ResourceInterface
     public function page(int $page, int $limit): self
     {
         $offset = ($page - 1) * $limit;
+        if ($offset < 0) {
+            $offset = 0;
+        }
         $this->_query->limit($limit);
         $this->_query->offset($offset);
         return $this;

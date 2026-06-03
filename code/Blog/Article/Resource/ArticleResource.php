@@ -24,7 +24,7 @@ class ArticleResource extends \App\Resource\Resource
         return $this;
     }
 
-    public function sortArticles(?string $sortBy = null, string $order = 'ASC'): self
+    public function sort(?string $sortBy = null, string $order = 'ASC'): self
     {
         if ($sortBy) {
             $this->_query->sortBy($sortBy, $order);
@@ -32,7 +32,7 @@ class ArticleResource extends \App\Resource\Resource
         return $this;
     }
 
-    public function filterArticlesByYear(int $year): static
+    public function filterByYear(int $year): static
     {
         if ($year) {
             $this->_query->where(['YEAR(created_at) = :year'], ['year' => $year]);
@@ -40,10 +40,11 @@ class ArticleResource extends \App\Resource\Resource
         return $this;
     }
 
-    public function filterArticlesByCategory(int $categoryId): static
+    public function filterByCategory(int $categoryId): static
     {
         if ($categoryId) {
-            $this->_query->where(['category_article.category_id = :category_id'], ['category_id' => $categoryId]);
+            $this->_query->leftJoin('category_article', 'category_article.article_id', 'article.article_id')
+                ->where(['category_article.category_id = :category_id'], ['category_id' => $categoryId]);
         }
         return $this;
     }
@@ -51,17 +52,16 @@ class ArticleResource extends \App\Resource\Resource
     public function filterArticlesByIds(array $articleIds): self
     {
         if ($articleIds) {
-            $articleIdsStr = implode(',', array_unique($articleIds));
-            $this->_query->where(["article.article_id IN ($articleIdsStr)"]);
+            $this->_query->whereIn("article.article_id", array_unique($articleIds));
         }
         return $this;
     }
 
-    public function onlyIncludedCategories (array $categoriesIds): self
+    public function excludeByArticleIds(array $articleIds): self
     {
-        $categoriesIdsStr = implode(',', array_unique($categoriesIds));
-        $this->_query->leftJoin('category_article', 'category_article.article_id', 'article.article_id')
-            ->where(["category_article.category_id IN ($categoriesIdsStr)"]);
+        if ($articleIds) {
+            $this->_query->whereNotIn("article.article_id", array_unique($articleIds));
+        }
         return $this;
     }
 
@@ -87,8 +87,16 @@ class ArticleResource extends \App\Resource\Resource
         $this->_query->addColumns(['image.path AS main_image_path'])
             ->leftJoin('article_image', 'article_image.article_id', 'article.article_id')
             ->leftJoin('image', 'image.image_id', 'article_image.image_id')
-//            ->where(['article_image.is_main = 1'])
             ->groupBy(['main_image_path']);
+        return $this;
+    }
+
+    public function filterByMainImage(): self
+    {
+        $this->_query
+            ->leftJoin('article_image', 'article_image.article_id', 'article.article_id')
+            ->leftJoin('image', 'image.image_id', 'article_image.image_id')
+            ->where(['article_image.is_main = 1']);
         return $this;
     }
 
@@ -102,19 +110,27 @@ class ArticleResource extends \App\Resource\Resource
         return $this;
     }
 
-    public function selectRelatedArticles(int $articleId): self
+    public function rand(): self
     {
-        $this->_query->select(['article.article_id', 'article.title', 'article.description','article.views', 'article.created_at'])
-            ->from($this->_table)
-            ->leftJoin('article_tag', 'article_tag.article_id', 'article.article_id')
-            ->rand();
+        $this->_query->rand();
         return $this;
     }
 
-    public function filterArticlesByTags(array $tagIds): self
+    public function filterByTags(array $tags): self
     {
-        $tagIdsStr = implode(',', array_unique($tagIds));
-        $this->_query->where(["article_tag.tag_id IN ($tagIdsStr)"]);
+        $this->_query
+            ->leftJoin('article_tag', 'article_tag.article_id', 'article.article_id')
+            ->leftJoin('tag', 'tag.tag_id', 'article_tag.tag_id')
+            ->whereIn('tag.code', array_unique($tags));
+        return $this;
+    }
+
+    public function filterBySearchCondition(string $searchTerm): self
+    {
+        $this->_query->where(
+            ['article.title LIKE :search OR article.description LIKE :search OR article.content LIKE :search'],
+            ['search' => "%" . $searchTerm . "%"]
+        );
         return $this;
     }
 
@@ -134,27 +150,10 @@ class ArticleResource extends \App\Resource\Resource
 
     public function selectArticleImages(array $articleIds): self
     {
-        $articleIdsStr = implode(', ' , $articleIds);
         $this->_query->select(['article_image.article_id', 'image.path AS image_path'])
             ->from('image')
             ->leftJoin('article_image', 'article_image.image_id', 'image.image_id')
-            ->where(["article_image.article_id IN ($articleIdsStr)"]);
-        return $this;
-    }
-
-    public function findArticleIds(string $searchTerm, ?string $sortBy = null, ?string $order = null): self
-    {
-        $this->_query->select(['DISTINCT article.article_id', 'article.created_at', 'article.views'])
-            ->from($this->_table);
-        if (!empty($sortBy)) {
-            $this->_query->sortBy($sortBy, $order);
-        }
-
-        $this->_query->where(
-            ['article.title LIKE :search OR article.description LIKE :search OR article.content LIKE :search'],
-            ['search' => "%" . $searchTerm . "%"]
-        );
-
+            ->whereIn("article_image.article_id", $articleIds);
         return $this;
     }
 
@@ -168,8 +167,9 @@ class ArticleResource extends \App\Resource\Resource
 
     public function withTags(): self
     {
-        $this->_query->addColumns(["GROUP_CONCAT(article_tag.tag_id SEPARATOR ',') AS tag_ids"])
-            ->leftJoin('article_tag', 'article_tag.article_id', 'article.article_id');
+        $this->_query->addColumns(["GROUP_CONCAT(tag.code SEPARATOR ',') AS tags"])
+            ->leftJoin('article_tag', 'article_tag.article_id', 'article.article_id')
+            ->leftJoin('tag', 'tag.tag_id', 'article_tag.tag_id');
         return $this;
     }
 }

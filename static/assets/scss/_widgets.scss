@@ -4,6 +4,7 @@ $widget-background-color: map-get($theme-colors, "light");
 $widget-color: map-get($theme-colors, "secondary");
 $widget-link-color: map-get($theme-colors, "secondary");
 $widget-link-color--hover: map-get($theme-colors, "primary");
+$widget-link-color--active: map-get($theme-colors, "primary");
 
 $widget-header-color: map-get($theme-colors, "secondary-dark");
 $widget-header-border-bottom-color: map-get($theme-colors, "light-dark");
@@ -12,7 +13,8 @@ $widget-category-item-count-bg-color: #F4F7F9;
 $widget-category-item-count-color: map-get($theme-colors, "secondary");
 
 $widget-select-bg-color: map-get($theme-colors, "light");
-$widget-select-picker-color: map-get($theme-colors, "dark");
+$widget-select-color: map-get($theme-colors, "dark");
+$widget-select-option-bg-color: map-get($theme-colors, "light-dark");
 
 $widget-input-group-bg-color: map-get($theme-colors, "primary");
 $widget-input-group-control-color: map-get($theme-colors, "light");
@@ -92,6 +94,15 @@ $widget-related-article-title-color--hover: map-get($theme-colors, "primary");
       &:not(:last-child) {
         border-bottom: 1px solid $widget-category-item-count-bg-color;
       }
+      &.active {
+        a {
+          font-weight: 600;
+          color: $widget-link-color--active;
+          span {
+            background: #dce8ef;
+          }
+        }
+      }
     }
   }
 }
@@ -100,37 +111,65 @@ $widget-related-article-title-color--hover: map-get($theme-colors, "primary");
 .widget.archive {
   ul.archive-list {
     li {
-      a:hover {
+      &.active {
+        color: $widget-link-color--hover;
+        font-weight: 600;
+      }
+      padding: 8px 0;
+      cursor: pointer;
+      color: $widget-link-color;
+      &:hover {
         text-decoration: underline;
+        color: $widget-link-color--hover;
       }
     }
+
   }
 }
 
 // widget select filter
-.widget.filter {
-  select {
-    outline: none;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    width: 100%;
-    padding: 5px 40px 5px 10px;
-    border: $widget-input-group-border;
-    color: $widget-color;
-    border-radius: 5px;
-    background-color: $widget-select-bg-color;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(0,0,0,0.5)' stroke-width='2'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    background-size: 10px;
+.widget {
+  &.filter, &.article-checkbox-filter {
+    select {
+      outline: none;
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      width: 100%;
+      padding: 5px 40px 5px 10px;
+      border: $widget-input-group-border;
+      color: $widget-color;
+      border-radius: 5px;
+      background-color: $widget-select-bg-color;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='rgba(0,0,0,0.5)' stroke-width='2'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 10px;
 
-    &::picker-icon {
-      color: $widget-select-picker-color;
-      transition: rotate 0.4s;
+      &::picker-icon {
+        color: $widget-select-color;
+        transition: rotate 0.4s;
+      }
+      &::-ms-expand {
+        display: none;
+      }
     }
-    &::-ms-expand {
-      display: none;
+
+    .nice-select {
+      width: 100%;
+      border-radius: 5px;
+      border: $widget-input-group-border;
+      color: $widget-color;
+      padding: 0 40px 0 10px;
+      ul {
+        width: inherit;
+        border: $widget-input-group-border;
+        -webkit-box-shadow: 3px 3px 7px -1px rgba(61,61,61,0.36);
+        box-shadow: 3px 3px 7px -1px rgba(61,61,61,0.36);
+        .option.focus, .nice-select .option.selected.focus {
+          background-color: #f5f5f5;
+        }
+      }
     }
   }
 }
@@ -156,16 +195,16 @@ $widget-related-article-title-color--hover: map-get($theme-colors, "primary");
     }
 
     .input-group-addon {
-      padding: 0.75rem 0.75rem;
+      line-height: 1;
+      padding: 17px;
       background: $widget-input-group-bg-color;
       color: $widget-input-group-color;
       border: none;
       border-bottom-right-radius: 2px;
       border-top-right-radius: 2px;
       i {
+        line-height: 1;
         font-size: 15px;
-        padding-right: 5px;
-        padding-left: 5px;
       }
     }
   }
@@ -177,7 +216,7 @@ $widget-related-article-title-color--hover: map-get($theme-colors, "primary");
     margin-bottom: 4px;
     padding: 5px 0;
     .container {
-      padding: 0;
+      padding: 5px 0;
       input {
         position: absolute;
         opacity: 0;
@@ -217,7 +256,11 @@ $widget-related-article-title-color--hover: map-get($theme-colors, "primary");
       display: block;
     }
   }
-}
+
+  .nice-select {
+    margin-bottom: 15px;
+  }
+ }
 
 // widget article cards
 .widget.related-article {
